@@ -10,5 +10,11 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
     <PackageReference Include="ThorNet" Version="1.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="sage.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
 </Project>
