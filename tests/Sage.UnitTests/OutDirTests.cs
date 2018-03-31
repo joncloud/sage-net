@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,6 +30,45 @@ namespace Sage.UnitTests
                 var expected = new[] { "Query1", "Query2", "Query3", "Query4" };
                 Assert.Equal(expected, actual);
             }
+        }
+
+        [Sql]
+        public void Json_ShouldSerializeJsonArrayToOutDir()
+        {
+            using (var testDirectory = new TestDirectory())
+            {
+                var _ = TestHarness.Run(
+                    () => Program.AsJson(SqlAttribute.ConnectionString, testDirectory.AbsolutePath),
+                    new[] {
+                        new Query { 
+                            Name = "Json", 
+                            CommandText = @"
+                                SELECT 123 [Number], 'ABC' [Text]
+                                UNION ALL SELECT 456 [Number], 'DEF' [Text]
+                            "
+                        }
+                    }
+                );
+
+                var file = Assert.Single(testDirectory.GetFiles());
+                var json = File.ReadAllText(file.FullName);
+                
+                var actual = JsonConvert.DeserializeObject<Mock[]>(json);
+                var expected = new[] {
+                    new Mock { Number = 123, Text = "ABC" },
+                    new Mock { Number = 456, Text = "DEF" }
+                };
+                Assert.Equal(expected, actual);
+            }
+        }
+
+        struct Mock
+        {
+            public int Number { get; set; }
+            public string Text { get; set; }
+
+            public override string ToString() =>
+                $"Number ({Number}), Text ({Text})";
         }
 
         class TestDirectory : IDisposable
