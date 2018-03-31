@@ -53,7 +53,6 @@ namespace Sage.UnitTests
             Assert.Equal(expected, actual);
         }
 
-
         static Hash CalculateHash(Query query, Action<Program> fn) =>
             Assert.Single(CalculateHashes(new[] { query }, fn));
 
