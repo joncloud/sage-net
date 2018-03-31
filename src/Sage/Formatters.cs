@@ -9,6 +9,8 @@ namespace Sage
 
     class Formatters
     {
+        static readonly string _newLine = "\n";
+
         public static void ReadDataTabDelimited(SqlCommand command, StreamWriter writer)
         {
             using (var reader = command.ExecuteReader())
@@ -21,7 +23,7 @@ namespace Sage
                         writer.Write(reader[i]);
                         if (i > 0) writer.Write('\t');
                     }
-                    writer.WriteLine();
+                    writer.Write(_newLine);
                 }
             }
         }
@@ -35,22 +37,22 @@ namespace Sage
                 jsonWriter.WriteStartArray();
                 while (reader.Read())
                 {
-                    jsonWriter.WriteWhitespace(Environment.NewLine);
+                    jsonWriter.WriteWhitespace(_newLine);
                     jsonWriter.WriteWhitespace("  ");
                     jsonWriter.WriteStartObject();
-                    jsonWriter.WriteWhitespace(Environment.NewLine);
+                    jsonWriter.WriteWhitespace(_newLine);
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
                         jsonWriter.WriteWhitespace("    ");
                         jsonWriter.WritePropertyName(reader.GetName(i));
                         jsonWriter.WriteValue(reader[i]);
-                        jsonWriter.WriteWhitespace(Environment.NewLine);
+                        jsonWriter.WriteWhitespace(_newLine);
                     }
-                    jsonWriter.WriteWhitespace(Environment.NewLine);
+                    jsonWriter.WriteWhitespace(_newLine);
                     jsonWriter.WriteWhitespace("  ");
                     jsonWriter.WriteEndObject();
                 }
-                jsonWriter.WriteWhitespace(Environment.NewLine);
+                jsonWriter.WriteWhitespace(_newLine);
                 jsonWriter.WriteEndArray();
             }
             jsonWriter.Flush();
