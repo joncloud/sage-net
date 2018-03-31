@@ -11,8 +11,8 @@ using ThorNet;
 namespace Sage
 {
     [Option("out-dir", "-o", "writes the data out into a directory")]
-    [Option("hash", "-h", "chooses the hash algorithm to use", DefaultValue = "SHA256")]
-    partial class Program : Thor
+    [Option("hash", "-h", "chooses the hash algorithm to use", DefaultValue = Hashes.DefaultAlgorithmName)]
+    public class Program : Thor
     {
         static int Main(string[] args) => Start<Program>(args);
 
@@ -42,7 +42,7 @@ namespace Sage
             Option("out-dir", x => new OutDir(x), () => new OutDir());
 
         HashAlgorithm GetHashAlgorithm() =>
-            Option("hash", x => Hashes.Create(x));
+            Option("hash", x => Hashes.Create(x), Hashes.CreateDefault);
 
         static void DisplayHashesFor(string connectionString, List<Query> queries, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
         {

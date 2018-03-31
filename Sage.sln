@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B3FC12E4-7CD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sage", "src\Sage\Sage.csproj", "{715938CE-C603-4933-80BB-9F5D47BEE889}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5654BD2F-E59D-4155-AD86-029A67274976}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sage.UnitTests", "tests\Sage.UnitTests\Sage.UnitTests.csproj", "{0EEBF6C3-8FC3-49CE-98A0-D03B45245091}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +21,17 @@ Global
 		{715938CE-C603-4933-80BB-9F5D47BEE889}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{715938CE-C603-4933-80BB-9F5D47BEE889}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{715938CE-C603-4933-80BB-9F5D47BEE889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EEBF6C3-8FC3-49CE-98A0-D03B45245091}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EEBF6C3-8FC3-49CE-98A0-D03B45245091}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EEBF6C3-8FC3-49CE-98A0-D03B45245091}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EEBF6C3-8FC3-49CE-98A0-D03B45245091}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{715938CE-C603-4933-80BB-9F5D47BEE889} = {B3FC12E4-7CDA-4CA6-9BB5-535875FBC9C9}
+		{0EEBF6C3-8FC3-49CE-98A0-D03B45245091} = {5654BD2F-E59D-4155-AD86-029A67274976}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53321807-40FA-48E1-887F-CD00A0459485}

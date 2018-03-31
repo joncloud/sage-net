@@ -5,6 +5,9 @@ namespace Sage
 {
     class Hashes
     {
+        public const string DefaultAlgorithmName = nameof(HashAlgorithmName.SHA256);
+        public static HashAlgorithm CreateDefault() =>
+            Create(DefaultAlgorithmName);
         public static HashAlgorithm Create(string name)
         {
             switch (name?.ToUpper())
