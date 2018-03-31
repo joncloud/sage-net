@@ -66,7 +66,7 @@ namespace Sage
         static void DisplayHashFor(string connectionString, string name, string commandText, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
         {
             Console.Out.Write(name);
-            Console.Out.Write("\t");
+            Console.Out.Write("  ");
             string hash = ComputeHash(connectionString, name, commandText, outDir, fn, algorithm);
             Console.Out.WriteLine(hash);
         }
