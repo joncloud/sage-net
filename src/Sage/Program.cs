@@ -27,6 +27,20 @@ namespace Sage
             }
         }
 
+        public static int AsTabbed(string connectionString, string outDir = "", string hash = "")
+        {
+            List<string> args = new List<string>
+            {
+                nameof(tab),
+                connectionString
+            };
+
+            if (!string.IsNullOrWhiteSpace(outDir)) args.Add($"--out-dir={outDir}");
+            if (!string.IsNullOrWhiteSpace(hash)) args.Add($"--hash={hash}");
+
+            return Main(args.ToArray());
+        }
+
         [Desc("json CONNECTION-STRING", "displays hashes for queries defined in stdin")]
         public void json(string connectionString)
         {
@@ -36,6 +50,20 @@ namespace Sage
                 var queries = ReadQueriesFromStdIn();
                 DisplayHashesFor(connectionString, queries, outDir, Formatters.ReadDataAsJson, algorithm);
             }
+        }
+
+        public static int AsJson(string connectionString, string outDir = "", string hash = "")
+        {
+            List<string> args = new List<string>
+            {
+                nameof(json),
+                connectionString
+            };
+
+            if (!string.IsNullOrWhiteSpace(outDir)) args.Add($"--out-dir={outDir}");
+            if (!string.IsNullOrWhiteSpace(hash)) args.Add($"--hash={hash}");
+
+            return Main(args.ToArray());
         }
 
         OutDir GetOutDir() =>

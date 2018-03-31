@@ -7,13 +7,13 @@ namespace Sage.UnitTests
 {
     static class TestHarness
     {
-        public static (int, string, string) Run(Action<Program> fn, IEnumerable<Query> queries)
+        public static (int, string, string) Run(Action fn, IEnumerable<Query> queries)
         {
             using (Swap.ConsoleIn(WithJson(queries)))
             using (var writer = new StringWriter())
             using (Swap.ConsoleOut(writer))
             {
-                fn(new Program());
+                fn();
 
                 string stdOut = writer.ToString();
                 return (0, stdOut, "");
