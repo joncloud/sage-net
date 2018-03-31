@@ -25,7 +25,7 @@ namespace Sage.UnitTests
                     }
                 );
 
-                var actual = testDirectory.GetFiles().Select(x => x.Name);
+                var actual = testDirectory.GetFiles().Select(x => x.Name).OrderBy(x => x);
                 var expected = new[] { "Query1", "Query2", "Query3", "Query4" };
                 Assert.Equal(expected, actual);
             }
