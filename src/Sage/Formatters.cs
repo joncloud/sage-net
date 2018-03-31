@@ -5,6 +5,8 @@ using System.IO;
 
 namespace Sage
 {
+    delegate void Formatter(SqlCommand command, StreamWriter writer);
+
     class Formatters
     {
         public static void ReadDataTabDelimited(SqlCommand command, StreamWriter writer)

@@ -44,7 +44,7 @@ namespace Sage
         HashAlgorithm GetHashAlgorithm() =>
             Option("hash", x => Hashes.Create(x));
 
-        static void DisplayHashesFor(string connectionString, List<Query> queries, OutDir outDir, Action<SqlCommand, StreamWriter> fn, HashAlgorithm algorithm)
+        static void DisplayHashesFor(string connectionString, List<Query> queries, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
         {
             var padding = queries.Select(q => q.Name.Length).Max();
 
@@ -65,7 +65,7 @@ namespace Sage
             }
         }
 
-        static void DisplayHashFor(string connectionString, string name, string commandText, OutDir outDir, Action<SqlCommand, StreamWriter> fn, HashAlgorithm algorithm)
+        static void DisplayHashFor(string connectionString, string name, string commandText, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
         {
             Console.Write(name);
             Console.Write("\t");
@@ -73,7 +73,7 @@ namespace Sage
             Console.WriteLine(hash);
         }
 
-        static string ComputeHash(string connectionString, string name, string commandText, OutDir outDir, Action<SqlCommand, StreamWriter> fn, HashAlgorithm algorithm)
+        static string ComputeHash(string connectionString, string name, string commandText, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
         {
             string file = outDir.AddFile(name);
             string text;
@@ -92,7 +92,7 @@ namespace Sage
             return text;
         }
 
-        static Stream LoadData(string connectionString, string file, string commandText, Action<SqlCommand, StreamWriter> fn)
+        static Stream LoadData(string connectionString, string file, string commandText, Formatter fn)
         {
             var stream = File.Create(file);
             var writer = new StreamWriter(stream, Encoding.UTF8, 81920, leaveOpen: true)
