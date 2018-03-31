@@ -56,9 +56,7 @@ namespace Sage
 
         static List<Query> ReadQueriesFromStdIn()
         {
-            using (var stream = Console.OpenStandardInput())
-            using (var reader = new StreamReader(stream))
-            using (var jsonReader = new JsonTextReader(reader))
+            using (var jsonReader = new JsonTextReader(Console.In))
             {
                 var serializer = new JsonSerializer();
                 return serializer.Deserialize<List<Query>>(jsonReader);
@@ -67,10 +65,10 @@ namespace Sage
 
         static void DisplayHashFor(string connectionString, string name, string commandText, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
         {
-            Console.Write(name);
-            Console.Write("\t");
+            Console.Out.Write(name);
+            Console.Out.Write("\t");
             string hash = ComputeHash(connectionString, name, commandText, outDir, fn, algorithm);
-            Console.WriteLine(hash);
+            Console.Out.WriteLine(hash);
         }
 
         static string ComputeHash(string connectionString, string name, string commandText, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
