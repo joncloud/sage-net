@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -43,7 +40,11 @@ namespace Sage.UnitTests
                     CommandText = "SELECT 2 [Num]"
                 }
             };
-            var actual = CalculateHashes(queries, fn);
+            var (_, stdOut, __) = TestHarness.Run(fn, queries);
+            var actual = stdOut.Split(Environment.NewLine)
+                .Where(IsNotEmpty)
+                .Select(AsHash)
+                .ToArray();
             var expected = new[]
             {
                 new Hash("Query1", hash1),
@@ -51,25 +52,6 @@ namespace Sage.UnitTests
             };
 
             Assert.Equal(expected, actual);
-        }
-
-        static Hash CalculateHash(Query query, Action<Program> fn) =>
-            Assert.Single(CalculateHashes(new[] { query }, fn));
-
-        static IEnumerable<Hash> CalculateHashes(IEnumerable<Query> queries, Action<Program> fn)
-        {
-            using (Swap.ConsoleIn(WithJson(queries)))
-            using (var writer = new StringWriter())
-            using (Swap.ConsoleOut(writer))
-            {
-                fn(new Program());
-
-                return writer.ToString()
-                    .Split(Environment.NewLine)
-                    .Where(IsNotEmpty)
-                    .Select(AsHash)
-                    .ToArray();
-            }
 
             bool IsNotEmpty(string s) => !string.IsNullOrWhiteSpace(s);
 
@@ -77,12 +59,6 @@ namespace Sage.UnitTests
             {
                 string[] parts = s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 return new Hash(parts[0], parts[1]);
-            }
-
-            TextReader WithJson(object o)
-            {
-                string json = JsonConvert.SerializeObject(o);
-                return new StringReader(json);
             }
         }
     }
