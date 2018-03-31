@@ -17,11 +17,11 @@ namespace Sage
             {
                 while (reader.Read())
                 {
-                    int i = reader.FieldCount;
-                    while (--i >= 0)
+                    int count = reader.FieldCount;
+                    for (int i = 0; i < count; i++)
                     {
                         writer.Write(reader[i]);
-                        if (i > 0) writer.Write('\t');
+                        if (i < count - 1) writer.Write('\t');
                     }
                     writer.Write(_newLine);
                 }

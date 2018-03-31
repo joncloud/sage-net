@@ -62,6 +62,44 @@ namespace Sage.UnitTests
             }
         }
 
+        [Sql]
+        public void Tab_ShouldSerializeTabDelimitedLinesToOutDir()
+        {
+            using (var testDirectory = new TestDirectory())
+            {
+                var _ = TestHarness.Run(
+                    () => Program.AsTabbed(SqlAttribute.ConnectionString, testDirectory.AbsolutePath),
+                    new[] {
+                        new Query { 
+                            Name = "Tabbed", 
+                            CommandText = @"
+                                SELECT 123 [Number], 'ABC' [Text]
+                                UNION ALL SELECT 456 [Number], 'DEF' [Text]
+                            "
+                        }
+                    }
+                );
+
+                var file = Assert.Single(testDirectory.GetFiles());
+
+                var actual = File.ReadAllLines(file.FullName)
+                    .Select(AsMock);
+                var expected = new[] {
+                    new Mock { Number = 123, Text = "ABC" },
+                    new Mock { Number = 456, Text = "DEF" }
+                };
+                Assert.Equal(expected, actual);
+
+                Mock AsMock(string s) {
+                    string[] parts = s.Split('\t');
+                    return new Mock {
+                        Number = int.Parse(parts[0]),
+                        Text = parts[1]
+                    };
+                }
+            }
+        }
+
         struct Mock
         {
             public int Number { get; set; }
