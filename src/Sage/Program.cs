@@ -41,13 +41,13 @@ Alternately the array syntax can be dropped, and a single query can be hashed.
 Query1  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
 Query2  0x54CB67D1746CD42CA947F6CE705060D0FB5540E55D588F5726CDAD0B73F41618
 ")]
-        public void tab(string connectionString)
+        public int tab(string connectionString)
         {
             using (var outDir = GetOutDir())
             using (var algorithm = GetHashAlgorithm())
             {
                 var queries = ReadQueriesFromStdIn();
-                DisplayHashesFor(connectionString, queries, outDir, Formatters.ReadDataTabDelimited, algorithm);
+                return DisplayHashesFor(connectionString, queries, outDir, Formatters.ReadDataTabDelimited, algorithm);
             }
         }
 
@@ -86,13 +86,13 @@ Alternately the array syntax can be dropped, and a single query can be hashed.
 Query1  0x91738898BE6EFB426A36452F1542D8125D88BA477181C5050F18AA660B752A62
 Query2  0xD090F0B1DC045D93136B03DBE30DB9F3AB4777D12F512168549B191924C0EE2F
 ")]
-        public void json(string connectionString)
+        public int json(string connectionString)
         {
             using (var outDir = GetOutDir())
             using (var algorithm = GetHashAlgorithm())
             {
                 var queries = ReadQueriesFromStdIn();
-                DisplayHashesFor(connectionString, queries, outDir, Formatters.ReadDataAsJson, algorithm);
+                return DisplayHashesFor(connectionString, queries, outDir, Formatters.ReadDataAsJson, algorithm);
             }
         }
 
@@ -116,20 +116,23 @@ Query2  0xD090F0B1DC045D93136B03DBE30DB9F3AB4777D12F512168549B191924C0EE2F
         HashAlgorithm GetHashAlgorithm() =>
             Option("hash", x => Hashes.Create(x), Hashes.CreateDefault);
 
-        static void DisplayHashesFor(string connectionString, List<Query> queries, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
+        static int DisplayHashesFor(string connectionString, List<Query> queries, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
         {
             var padding = queries.Select(q => q.Name.Length).Max();
 
             var results = queries.Select(AsHashResult);
 
+            int exitCode = 0;
             foreach (var result in results)
             {
+                exitCode = Math.Max(result.ExitCode, exitCode);
                 DisplayHashFor(result);
             }
+            return exitCode;
 
             HashResult AsHashResult(Query query) =>
                 GetHashResultFor(connectionString, query.Name.PadRight(padding, ' '), query.CommandText, outDir, fn, algorithm);
-                
+
             void DisplayHashFor(HashResult hashResult)
             {
                 Console.Out.Write(hashResult.QueryName);
