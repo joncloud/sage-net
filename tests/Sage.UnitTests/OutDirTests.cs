@@ -35,43 +35,38 @@ namespace Sage.UnitTests
         [Sql]
         public void Json_ShouldSerializeJsonArrayToOutDir()
         {
-            using (var testDirectory = new TestDirectory())
-            {
-                var _ = TestHarness.Run(
-                    () => Program.AsJson(SqlAttribute.ConnectionString, testDirectory.AbsolutePath),
-                    new[] {
-                        new Query { 
-                            Name = "Json", 
-                            CommandText = @"
-                                SELECT 123 [Number], 'ABC' [Text]
-                                UNION ALL SELECT 456 [Number], 'DEF' [Text]
-                            "
-                        }
-                    }
-                );
-
-                var file = Assert.Single(testDirectory.GetFiles());
-                var json = File.ReadAllText(file.FullName);
-                
-                var actual = JsonConvert.DeserializeObject<Mock[]>(json);
-                var expected = new[] {
-                    new Mock { Number = 123, Text = "ABC" },
-                    new Mock { Number = 456, Text = "DEF" }
-                };
-                Assert.Equal(expected, actual);
-            }
+            Test(
+                path => Program.AsJson(SqlAttribute.ConnectionString, path),
+                file => JsonConvert.DeserializeObject<Mock[]>(File.ReadAllText(file.FullName))
+            );
         }
 
         [Sql]
         public void Tab_ShouldSerializeTabDelimitedLinesToOutDir()
         {
+            Test(
+                path => Program.AsTabbed(SqlAttribute.ConnectionString, path),
+                file => File.ReadAllLines(file.FullName).Select(AsMock)
+            );
+
+            Mock AsMock(string s) {
+                string[] parts = s.Split('\t');
+                return new Mock {
+                    Number = int.Parse(parts[0]),
+                    Text = parts[1]
+                };
+            }
+        }
+
+        static void Test(Action<string> fn, Func<FileInfo, IEnumerable<Mock>> convert)
+        {
             using (var testDirectory = new TestDirectory())
             {
                 var _ = TestHarness.Run(
-                    () => Program.AsTabbed(SqlAttribute.ConnectionString, testDirectory.AbsolutePath),
+                    () => fn(testDirectory.AbsolutePath),
                     new[] {
                         new Query { 
-                            Name = "Tabbed", 
+                            Name = "data", 
                             CommandText = @"
                                 SELECT 123 [Number], 'ABC' [Text]
                                 UNION ALL SELECT 456 [Number], 'DEF' [Text]
@@ -82,21 +77,12 @@ namespace Sage.UnitTests
 
                 var file = Assert.Single(testDirectory.GetFiles());
 
-                var actual = File.ReadAllLines(file.FullName)
-                    .Select(AsMock);
+                var actual = convert(file);
                 var expected = new[] {
                     new Mock { Number = 123, Text = "ABC" },
                     new Mock { Number = 456, Text = "DEF" }
                 };
                 Assert.Equal(expected, actual);
-
-                Mock AsMock(string s) {
-                    string[] parts = s.Split('\t');
-                    return new Mock {
-                        Number = int.Parse(parts[0]),
-                        Text = parts[1]
-                    };
-                }
             }
         }
 
