@@ -16,7 +16,28 @@ namespace Sage
     {
         static int Main(string[] args) => Start<Program>(args);
 
-        [Desc("tab CONNECTION-STRING", "displays hashes for queries defined in stdin")]
+        protected override string GetPackageName() => "sage";
+
+        [Desc("tab CONNECTION-STRING", "queries the sql server through the connection string and displays hashes in tab-delimited format")]
+        [LongDesc(@"
+sage tab $CONNECTION_STRING will prompt for queries to run through stdin.
+
+Queries are defined with the following format:
+[
+  {
+    ""name"": ""Query1"",
+    ""commandText"": ""SELECT 1 [Num]"",
+  },
+  {
+    ""name"": ""Query2"",
+    ""commandText"": ""SELECT 2 [Num]"",
+  }
+]
+
+`$QUERIES | sage tab $CONNECTION_STRING` will result in 
+Query1  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
+Query2  0x54CB67D1746CD42CA947F6CE705060D0FB5540E55D588F5726CDAD0B73F41618
+")]
         public void tab(string connectionString)
         {
             using (var outDir = GetOutDir())
@@ -41,7 +62,26 @@ namespace Sage
             return Main(args.ToArray());
         }
 
-        [Desc("json CONNECTION-STRING", "displays hashes for queries defined in stdin")]
+        [Desc("json CONNECTION-STRING", "queries the sql server through the connection string and displays hashes in json format")]
+        [LongDesc(@"
+sage json $CONNECTION_STRING will prompt for queries to run through stdin.
+
+Queries are defined with the following format:
+[
+  {
+    ""name"": ""Query1"",
+    ""commandText"": ""SELECT 1 [Num]"",
+  },
+  {
+    ""name"": ""Query2"",
+    ""commandText"": ""SELECT 2 [Num]"",
+  }
+]
+
+`$QUERIES | sage tab $CONNECTION_STRING` will result in 
+Query1  0x91738898BE6EFB426A36452F1542D8125D88BA477181C5050F18AA660B752A62
+Query2  0xD090F0B1DC045D93136B03DBE30DB9F3AB4777D12F512168549B191924C0EE2F
+")]
         public void json(string connectionString)
         {
             using (var outDir = GetOutDir())
