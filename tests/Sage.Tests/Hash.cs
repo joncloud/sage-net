@@ -1,4 +1,4 @@
-﻿namespace Sage.UnitTests
+﻿namespace Sage.Tests
 {
     struct Hash
     {

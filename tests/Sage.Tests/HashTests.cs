@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Xunit;
 
-namespace Sage.UnitTests
+namespace Sage.Tests
 {
     public class HashTests
     {

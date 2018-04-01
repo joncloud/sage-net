@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using Xunit;
 
-namespace Sage.UnitTests
+namespace Sage.Tests
 {
     class SqlAttribute : FactAttribute
     {

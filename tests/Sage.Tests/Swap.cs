@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Sage.UnitTests
+namespace Sage.Tests
 {
     class Swap : IDisposable
     {

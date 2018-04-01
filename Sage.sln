@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sage", "src\Sage\Sage.cspro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5654BD2F-E59D-4155-AD86-029A67274976}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sage.UnitTests", "tests\Sage.UnitTests\Sage.UnitTests.csproj", "{0EEBF6C3-8FC3-49CE-98A0-D03B45245091}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sage.Tests", "tests\Sage.Tests\Sage.Tests.csproj", "{0EEBF6C3-8FC3-49CE-98A0-D03B45245091}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

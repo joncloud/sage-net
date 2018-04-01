@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace Sage.UnitTests
+namespace Sage.Tests
 {
     public class OutDirTests
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Sage.UnitTests
+namespace Sage.Tests
 {
     static class TestHarness
     {
