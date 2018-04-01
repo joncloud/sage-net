@@ -1,0 +1,30 @@
+using System.Collections.Generic;
+using Xunit;
+
+namespace Sage.Tests
+{
+    public class ErrorTests
+    {
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        [Theory]
+        public void ShouldSetExitCodeOneGivenAnyError(int insertPosition)
+        {
+            var queries = new List<Query>
+            {
+                new Query { Name = "1", CommandText = "SELECT 1" },
+                new Query { Name = "2", CommandText = "SELECT 2" }
+            };
+
+            queries.Insert(insertPosition, new Query
+            {
+                Name = "3",
+                CommandText = "SELECT X"
+            });
+
+            var (exitCode, _, __) = TestHarness.Run(() => Program.AsTabbed(Sql.ConnectionString), queries);
+            Assert.Equal(1, exitCode);
+        }
+    }
+}

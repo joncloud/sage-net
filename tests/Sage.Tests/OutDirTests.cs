@@ -58,7 +58,7 @@ namespace Sage.Tests
             }
         }
 
-        static void Test(Action<string> fn, Func<FileInfo, IEnumerable<Mock>> convert)
+        static void Test(Func<string, int> fn, Func<FileInfo, IEnumerable<Mock>> convert)
         {
             using (var testDirectory = new TestDirectory())
             {

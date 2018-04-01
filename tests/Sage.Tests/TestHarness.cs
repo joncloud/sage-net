@@ -7,16 +7,16 @@ namespace Sage.Tests
 {
     static class TestHarness
     {
-        public static (int, string, string) Run(Action fn, IEnumerable<Query> queries)
+        public static (int, string, string) Run(Func<int> fn, IEnumerable<Query> queries)
         {
             using (Swap.ConsoleIn(WithJson(queries)))
             using (var writer = new StringWriter())
             using (Swap.ConsoleOut(writer))
             {
-                fn();
+                int exitCode = fn();
 
                 string stdOut = writer.ToString();
-                return (0, stdOut, "");
+                return (exitCode, stdOut, "");
             }
 
             TextReader WithJson(object o)

@@ -104,7 +104,7 @@ namespace Sage.Tests
             }
         }
 
-        static void Tests(Action fn, string hash1, string hash2)
+        static void Tests(Func<int> fn, string hash1, string hash2)
         {
             var queries = new[] {
                 new Query
@@ -118,7 +118,8 @@ namespace Sage.Tests
                     CommandText = "SELECT 2 [Num]"
                 }
             };
-            var (_, stdOut, __) = TestHarness.Run(fn, queries);
+            var (exitCode, stdOut, __) = TestHarness.Run(fn, queries);
+            Assert.Equal(0, exitCode);
             var actual = stdOut.Split(Environment.NewLine)
                 .Where(IsNotEmpty)
                 .Select(AsHash)
