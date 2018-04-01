@@ -4,14 +4,12 @@ using Xunit;
 
 namespace Sage.Tests
 {
-    class SqlAttribute : FactAttribute
+    static class Sql
     {
         public static readonly string ConnectionString;
-        static readonly string _skip;
+        public static readonly string Skip;
 
-        public SqlAttribute() => Skip = _skip;
-
-        static SqlAttribute()
+        static Sql()
         {
             ConnectionString = GetConnectionStringOrDefault();
 
@@ -20,21 +18,30 @@ namespace Sage.Tests
                 using (var connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    _skip = "";
+                    Skip = "";
                 }
             }
             catch
             {
-                _skip = "Cannot connect to SQL Server";
+                ConnectionString = null;
+                Skip = "Cannot connect to SQL Server";
             }
         }
 
         static string GetConnectionStringOrDefault()
         {
             string s = Environment.GetEnvironmentVariable("SAGE_CONNECTION_STRING");
-            return string.IsNullOrWhiteSpace(s) 
-                ? "Data Source=.;Initial Catalog=master;Integrated Security=true;Connection Timeout=1;"
-                : s;
+            if (string.IsNullOrWhiteSpace(s))
+            {
+                return "Data Source=.;Initial Catalog=master;Integrated Security=true;Connection Timeout=1;";
+            }
+            Console.WriteLine("Using Environment Connection String");
+            return s;
         }
+    }
+
+    class SqlFactAttribute : FactAttribute
+    {
+        public SqlFactAttribute() => Skip = Sql.Skip;
     }
 }

@@ -10,13 +10,13 @@ namespace Sage.Tests
 {
     public class OutDirTests
     {
-        [Sql]
+        [SqlFact]
         public void ShouldPersistFilesGivenOutDir()
         {
             using (var testDirectory = new TestDirectory())
             {
                 var _ = TestHarness.Run(
-                    () => Program.AsJson(SqlAttribute.ConnectionString, testDirectory.AbsolutePath),
+                    () => Program.AsJson(Sql.ConnectionString, testDirectory.AbsolutePath),
                     new[]
                     {
                         new Query { Name = "Query1", CommandText = "SELECT 1 [Num]" },
@@ -32,20 +32,20 @@ namespace Sage.Tests
             }
         }
 
-        [Sql]
+        [SqlFact]
         public void Json_ShouldSerializeJsonArrayToOutDir()
         {
             Test(
-                path => Program.AsJson(SqlAttribute.ConnectionString, path),
+                path => Program.AsJson(Sql.ConnectionString, path),
                 file => JsonConvert.DeserializeObject<Mock[]>(File.ReadAllText(file.FullName))
             );
         }
 
-        [Sql]
+        [SqlFact]
         public void Tab_ShouldSerializeTabDelimitedLinesToOutDir()
         {
             Test(
-                path => Program.AsTabbed(SqlAttribute.ConnectionString, path),
+                path => Program.AsTabbed(Sql.ConnectionString, path),
                 file => File.ReadAllLines(file.FullName).Select(AsMock)
             );
 

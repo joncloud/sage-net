@@ -10,5 +10,8 @@
             Name = name;
             Value = value;
         }
+
+        public override string ToString() =>
+            $"Name ({Name}), Hash ({Value})";
     }
 }
