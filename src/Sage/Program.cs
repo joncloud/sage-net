@@ -33,8 +33,9 @@ Queries are defined with the following format:
     ""commandText"": ""SELECT 2 [Num]"",
   }
 ]
+Alternately the array syntax can be dropped, and a single query can be hashed.
 
-`$QUERIES | sage tab $CONNECTION_STRING` will result in 
+`echo $QUERIES | sage tab $CONNECTION_STRING` will result in 
 Query1  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
 Query2  0x54CB67D1746CD42CA947F6CE705060D0FB5540E55D588F5726CDAD0B73F41618
 ")]
@@ -77,8 +78,9 @@ Queries are defined with the following format:
     ""commandText"": ""SELECT 2 [Num]"",
   }
 ]
+Alternately the array syntax can be dropped, and a single query can be hashed.
 
-`$QUERIES | sage tab $CONNECTION_STRING` will result in 
+`echo $QUERIES | sage tab $CONNECTION_STRING` will result in 
 Query1  0x91738898BE6EFB426A36452F1542D8125D88BA477181C5050F18AA660B752A62
 Query2  0xD090F0B1DC045D93136B03DBE30DB9F3AB4777D12F512168549B191924C0EE2F
 ")]
@@ -127,6 +129,7 @@ Query2  0xD090F0B1DC045D93136B03DBE30DB9F3AB4777D12F512168549B191924C0EE2F
             using (var jsonReader = new JsonTextReader(Console.In))
             {
                 var serializer = new JsonSerializer();
+                serializer.Converters.Add(new QueryConverter());
                 return serializer.Deserialize<List<Query>>(jsonReader);
             }
         }

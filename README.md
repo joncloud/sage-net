@@ -28,6 +28,18 @@ Query1  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
 Query2  0x54CB67D1746CD42CA947F6CE705060D0FB5540E55D588F5726CDAD0B73F41618
 ```
 
+For single queries, Sage.NET accepts a single JSON object to execute:
+```powershell
+$Query = @{
+  name = "Query";
+  commandText = "SELECT 1 [Num]"
+}
+$Json = $Query | ConvertTo-Json
+$ConnectionString = "Data Source=.;Initial Catalog=master;Integrated Security=true;"
+$Json | ./sage.cmd tab $ConnectionString
+Query  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
+```
+
 Use the `--hash` flag to change the hashing algorithm. By default Sage uses `SHA256`. Sage supports
  * MD5
  * SHA1
