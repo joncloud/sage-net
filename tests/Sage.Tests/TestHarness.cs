@@ -10,13 +10,16 @@ namespace Sage.Tests
         public static (int, string, string) Run(Func<int> fn, IEnumerable<Query> queries)
         {
             using (Swap.ConsoleIn(WithJson(queries)))
-            using (var writer = new StringWriter())
-            using (Swap.ConsoleOut(writer))
+            using (var stdOutWriter = new StringWriter())
+            using (Swap.ConsoleOut(stdOutWriter))
+            using (var stdErrorWriter = new StringWriter())
+            using (Swap.ConsoleError(stdErrorWriter))
             {
                 int exitCode = fn();
 
-                string stdOut = writer.ToString();
-                return (exitCode, stdOut, "");
+                string stdOut = stdOutWriter.ToString();
+                string stdError = stdErrorWriter.ToString();
+                return (exitCode, stdOut, stdError);
             }
 
             TextReader WithJson(object o)

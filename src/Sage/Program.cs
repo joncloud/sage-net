@@ -131,13 +131,13 @@ Query2  0xD090F0B1DC045D93136B03DBE30DB9F3AB4777D12F512168549B191924C0EE2F
             return exitCode;
 
             HashResult AsHashResult(Query query) =>
-                GetHashResultFor(connectionString, query.Name.PadRight(padding, ' '), query.CommandText, outDir, fn, algorithm);
+                GetHashResultFor(connectionString, query.Name, query.CommandText, outDir, fn, algorithm);
 
             void DisplayHashFor(HashResult hashResult)
             {
-                Console.Out.Write(hashResult.QueryName);
+                Console.Out.Write(hashResult.QueryName.PadRight(padding, ' '));
                 Console.Out.Write("  ");
-                Console.Out.WriteLine(hashResult.HashOrErrorValue);
+                hashResult.PrintValue(Console.Out, Console.Error);
             }
         }
 

@@ -26,5 +26,16 @@ namespace Sage.Tests
             var (exitCode, _, __) = TestHarness.Run(() => Program.AsTabbed(Sql.ConnectionString), queries);
             Assert.Equal(1, exitCode);
         }
+
+        [Fact]
+        public void ShouldWriteErrorsToStdErrorGivenError()
+        {
+            var queries = new []
+            {
+                new Query { Name = "1" , CommandText = "SELECT x" }
+            };
+            var (_, __, stdError) = TestHarness.Run(() => Program.AsTabbed("abc"), queries);
+            Assert.NotEmpty(stdError);
+        }
     }
 }

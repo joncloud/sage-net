@@ -118,8 +118,9 @@ namespace Sage.Tests
                     CommandText = "SELECT 2 [Num]"
                 }
             };
-            var (exitCode, stdOut, __) = TestHarness.Run(fn, queries);
+            var (exitCode, stdOut, stdError) = TestHarness.Run(fn, queries);
             Assert.Equal(0, exitCode);
+            Assert.Empty(stdError);
             var actual = stdOut.Split(Environment.NewLine)
                 .Where(IsNotEmpty)
                 .Select(AsHash)
