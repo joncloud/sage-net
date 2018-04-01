@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Rlx;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using ThorNet;
+using static Rlx.Functions;
 
 namespace Sage
 {
@@ -118,9 +120,21 @@ Query2  0xD090F0B1DC045D93136B03DBE30DB9F3AB4777D12F512168549B191924C0EE2F
         {
             var padding = queries.Select(q => q.Name.Length).Max();
 
-            foreach (var query in queries)
+            var results = queries.Select(AsHashResult);
+
+            foreach (var result in results)
             {
-                DisplayHashFor(connectionString, query.Name.PadRight(padding, ' '), query.CommandText, outDir, fn, algorithm);
+                DisplayHashFor(result);
+            }
+
+            HashResult AsHashResult(Query query) =>
+                GetHashResultFor(connectionString, query.Name.PadRight(padding, ' '), query.CommandText, outDir, fn, algorithm);
+                
+            void DisplayHashFor(HashResult hashResult)
+            {
+                Console.Out.Write(hashResult.QueryName);
+                Console.Out.Write("  ");
+                Console.Out.WriteLine(hashResult.HashOrErrorValue);
             }
         }
 
@@ -134,12 +148,12 @@ Query2  0xD090F0B1DC045D93136B03DBE30DB9F3AB4777D12F512168549B191924C0EE2F
             }
         }
 
-        static void DisplayHashFor(string connectionString, string name, string commandText, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
+        static HashResult GetHashResultFor(string connectionString, string name, string commandText, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
         {
-            Console.Out.Write(name);
-            Console.Out.Write("  ");
-            string hash = ComputeHash(connectionString, name, commandText, outDir, fn, algorithm);
-            Console.Out.WriteLine(hash);
+            Result<string, Exception> r = Try(ComputeHash, connectionString, name, commandText, outDir, fn, algorithm);
+            return r.Map(hash => HashResult.Hash(name, hash))
+                .MapError(ex => HashResult.Error(name, ex.ToString()))
+                .UnwrapEither();
         }
 
         static string ComputeHash(string connectionString, string name, string commandText, OutDir outDir, Formatter fn, HashAlgorithm algorithm)
