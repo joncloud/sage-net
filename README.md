@@ -24,8 +24,20 @@ $Queries = @(
 $Json = $Queries | ConvertTo-Json
 $ConnectionString = "Data Source=.;Initial Catalog=master;Integrated Security=true;"
 $Json | ./sage.cmd tab $ConnectionString
-Query1  0x07846B783C23904A75834C1932BC2FAD41E388E18BC32FFD73ED87BFA3844D87
-Query2  0x24C813CB6F9BADE379034E39A4665BF3BE056293A53543502481E4F3DB7E9291
+Query1  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
+Query2  0x54CB67D1746CD42CA947F6CE705060D0FB5540E55D588F5726CDAD0B73F41618
+```
+
+Use the `--hash` flag to change the hashing algorithm. By default Sage uses `SHA256`. Sage supports
+ * MD5
+ * SHA1
+ * SHA256
+ * SHA384
+ * SHA512
+```powershell
+$Json | ./sage.cmd tab $ConnectionString --hash=MD5
+Query1  0xF851F5BA5DEB579BBFE5D98E9CD268F6
+Query2  0x048F9E6DEF2045421BC057264C16A042
 ```
 
 Use the `--out-dir` flag in order to persist the information from the resulting query.
@@ -38,7 +50,7 @@ Get-Content ./Query2
 2
 ```
 
-Use the `json` command to export the information as JSON instead of Tab-Delimited.
+Use the `json` command to export the information as JSON instead of Tab-Delimited. Note that the hashes produced by JSON output vary from the Tab-Delimited output.
 ```powershell
 $Json | ./sage.cmd json $ConnectionString --out-dir=./
 ...
