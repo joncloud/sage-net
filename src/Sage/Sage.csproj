@@ -2,27 +2,37 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.2.0</VersionPrefix>
+    <VersionPrefix>0.3.0</VersionPrefix>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>sage</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <Description>Cross platform app that hashes mssql query results for testing</Description>
+    <Copyright>Copyright (c) 2018 joncloud (jdberube@gmail.com)</Copyright>
+    <AssemblyTitle>sage</AssemblyTitle>
+    <Authors>joncloud</Authors>
+    <AssemblyName>sage</AssemblyName>
+    <PackageId>sage</PackageId>
+    <PackageTags>json;hash;query;test;mssql</PackageTags>
+    <PackageReleaseNotes>https://github.com/joncloud/sage-net/releases</PackageReleaseNotes>
+    <!--<PackageIconUrl>https://raw.githubusercontent.com/joncloud/sage-net/master/nuget.png</PackageIconUrl>-->
+    <PackageProjectUrl>https://github.com/joncloud/sage-net</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/joncloud/sage-net/master/LICENSE.md</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/joncloud/sage-net</RepositoryUrl>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Rlx" Version="0.2.1-beta20180326.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
     <PackageReference Include="ThorNet" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="sage.cmd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="sage.sh">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   
 </Project>
