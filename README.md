@@ -1,4 +1,5 @@
 # Sage.NET
+[![Build Status](https://dev.azure.com/joncloud/joncloud-github/_apis/build/status/joncloud.sage-net?branchName=master)](https://dev.azure.com/joncloud/joncloud-github/_build/latest?definitionId=26&branchName=master)
 
 ## Description
 Sage.NET queries SQL Server databases and converts results into a hash.
