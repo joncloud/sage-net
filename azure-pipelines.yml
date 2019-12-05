@@ -13,25 +13,29 @@ steps:
   inputs:
     packageType: 'sdk'
     useGlobalJson: true
+  displayName: 'use .net core'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
     projects: '$(projects)'
     feedsToUse: 'select'
+  displayName: 'dotnet restore'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
     projects: '$(projects)'
-    arguments: '--configuration $(BuildConfiguration)'
+    arguments: '--configuration $(BuildConfiguration) --no-restore'
+  displayName: 'dotnet build'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
     publishWebProjects: false
-    projects: '$(projects)'
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    projects: 'src/**/*.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --no-build'
+  displayName: 'dotnet publish'
 
 # - task: DotNetCoreCLI@2
 #   inputs:
@@ -43,3 +47,4 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+  displayName: 'publish artifacts'
