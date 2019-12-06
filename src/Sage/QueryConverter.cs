@@ -24,6 +24,18 @@ namespace Sage
                     query
                 };
             }
+            else if (reader.TokenType == JsonToken.String)
+            {
+                var text = serializer.Deserialize<string>(reader);
+                return new List<Query>
+                {
+                    new Query
+                    {
+                        CommandText = text,
+                        Name = "Query"
+                    }
+                };
+            }
             else
             {
                 throw new NotImplementedException();
