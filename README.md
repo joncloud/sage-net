@@ -1,4 +1,5 @@
 # Sage.NET
+[![NuGet](https://img.shields.io/nuget/v/sage.svg)](https://www.nuget.org/packages/sage/)
 [![Build Status](https://dev.azure.com/joncloud/joncloud-github/_apis/build/status/joncloud.sage-net?branchName=master)](https://dev.azure.com/joncloud/joncloud-github/_build/latest?definitionId=26&branchName=master)
 
 ## Description
@@ -16,7 +17,32 @@ dotnet tool install --global sage --version 0.4.0
 ```
 
 ## Usage
-Sage.NET accepts a JSON array of queries to execute, and then hashes all of the results. Use the following example to connect to localhost.
+Sage.NET accepts several different ways to represent queries, executes them, and then hashes all of the results.
+
+### Simple Query
+A single query can be executed with a simple string. These will be named `Query`.
+```powershell
+$Query = "SELECT 1 [Num]" | ConvertTo-Json
+$ConnectionString = "Data Source=.;Initial Catalog=master;Integrated Security=true;"
+$Query | sage tab $ConnectionString
+Query  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
+```
+
+### Named Query
+A single query can also be run by creating a JSON object with a name property.
+```powershell
+$Query = @{
+  name = "Query";
+  commandText = "SELECT 1 [Num]"
+}
+$Json = $Query | ConvertTo-Json
+$ConnectionString = "Data Source=.;Initial Catalog=master;Integrated Security=true;"
+$Json | sage tab $ConnectionString
+Query  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
+```
+
+### Multiple Queries
+Run multiple queries by creating an array of named queries.
 ```powershell
 $Queries = @(
   @{
@@ -33,18 +59,6 @@ $ConnectionString = "Data Source=.;Initial Catalog=master;Integrated Security=tr
 $Json | sage tab $ConnectionString
 Query1  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
 Query2  0x54CB67D1746CD42CA947F6CE705060D0FB5540E55D588F5726CDAD0B73F41618
-```
-
-For single queries, Sage.NET accepts a single JSON object to execute:
-```powershell
-$Query = @{
-  name = "Query";
-  commandText = "SELECT 1 [Num]"
-}
-$Json = $Query | ConvertTo-Json
-$ConnectionString = "Data Source=.;Initial Catalog=master;Integrated Security=true;"
-$Json | sage tab $ConnectionString
-Query  0x313EA196881D370AEEAF78E274B0D08541F6CBF0DDFC7BE57A4594AD0A752A5C
 ```
 
 Use the `--hash` flag to change the hashing algorithm. By default Sage uses `SHA256`. Sage supports
