@@ -39,7 +39,7 @@ namespace Sage.Tests
         }
 
         [MemberData(nameof(JsonHashes))]
-        [SqlTheory]
+        [Theory]
         public void JsonTests(HashData data)
         {
             Tests(
@@ -80,7 +80,7 @@ namespace Sage.Tests
         }
 
         [MemberData(nameof(TabHashes))]
-        [SqlTheory]
+        [Theory]
         public void TabTests(HashData data)
         {
             Tests(

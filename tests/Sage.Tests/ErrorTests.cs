@@ -8,7 +8,7 @@ namespace Sage.Tests
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
-        [SqlTheory]
+        [Theory]
         public void ShouldSetExitCodeOneGivenAnyError(int insertPosition)
         {
             var queries = new List<Query>
