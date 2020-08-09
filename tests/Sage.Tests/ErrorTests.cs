@@ -8,7 +8,7 @@ namespace Sage.Tests
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
-        [Theory]
+        [SqlTheory]
         public void ShouldSetExitCodeOneGivenAnyError(int insertPosition)
         {
             var queries = new List<Query>
@@ -27,7 +27,7 @@ namespace Sage.Tests
             Assert.Equal(1, exitCode);
         }
 
-        [Fact]
+        [SqlFact]
         public void ShouldWriteErrorsToStdErrorGivenError()
         {
             var queries = new []

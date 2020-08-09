@@ -44,4 +44,9 @@ namespace Sage.Tests
     {
         public SqlFactAttribute() => Skip = Sql.Skip;
     }
+
+    class SqlTheoryAttribute : TheoryAttribute
+    {
+        public SqlTheoryAttribute() => Skip = Sql.Skip;
+    }
 }

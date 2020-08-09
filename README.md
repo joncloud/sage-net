@@ -13,7 +13,7 @@ Released under the MIT License.  See the [LICENSE][] file for further details.
 ## Installation
 Install `https` as a global .NET tool using
 ```bash
-dotnet tool install --global sage --version 0.4.0
+dotnet tool install --global sage --version 0.4.1
 ```
 
 ## Usage

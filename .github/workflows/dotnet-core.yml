@@ -7,10 +7,13 @@ on:
   pull_request:
     branches: [ publish ]
 
+env:
+  SAGE_CONNECTION_STRING: 'Data Source=(localdb)\mssqllocaldb;Initial Catalog=master;Integrated Security=true;Connection Timeout=1;'
+
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -26,8 +29,8 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
 
-#    - name: Test
-#      run: dotnet test --configuration Release --no-build --no-restore --verbosity normal
+    - name: Test
+      run: dotnet test --configuration Release --no-build --no-restore --verbosity normal
 
     - name: Pack
       run: dotnet pack --configuration Release --no-build --no-restore --version-suffix="beta$GITHUB_RUN_ID"
