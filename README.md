@@ -1,6 +1,7 @@
 # Sage.NET
 [![NuGet](https://img.shields.io/nuget/v/sage.svg)](https://www.nuget.org/packages/sage/)
 ![.NET Core](https://github.com/joncloud/sage-net/workflows/.NET%20Core/badge.svg)
+[![BuiltWithDot.Net shield](https://builtwithdot.net/project/489/sage-global-tool/badge)](https://builtwithdot.net/project/489/sage-global-tool)
 
 ## Description
 Sage.NET queries SQL Server databases and converts results into a hash.
